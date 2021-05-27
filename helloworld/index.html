@@ -1,0 +1,49 @@
+<div id="app">
+    <h3>{{title||"null"}}</h3>
+    <h3>{{state.title||"null"}}</h3>
+    <h3>{{state||"null"}}</h3>
+    <h3>{{computedState||"null"}}</h3>
+    <comp></comp>
+</div>
+<script src="https://unpkg.com/vue@next"></script>
+<script src="./hooks/useState.js"></script>
+<script>
+
+    // vue2和vue3的区别
+    // vue2使用Object.defineProperty(obj,key,{get(),set()}) vue3使用proxy
+    // 1. defineProperty不支持数组，不支持es6中的map、set
+    // proxy在语言级别上支持数组、map、set
+    // 2. defineProperty不支持原生的delete方法，不能方便添加属性。
+    // proxy在语言级别上支持对象的新增属性、删除属性
+    // 3. defineProperty需要对子对象递归响应式
+    // proxy 只需要在读到子对象时再做响应式
+    // 4.vue2使用watcher和dep进行发布订阅模式
+    // vue3消除了watcher，更小
+
+    // 缺点：vue3不支持ie11之前版本，因为proxy不支持
+
+    //使用的方法都需要导入， vue2中所有vue自带方法都需要打包
+    // vue3中只打包使用到的方法
+    const {createApp, reactive, ref} = Vue;
+    
+    const app = createApp({
+        data(){
+            return{
+                title:'hello world'
+            }
+        },
+        setup(){
+            // const state = reactive({
+            //     title:'hello world setup'
+            // })
+            const state = ref('data')
+            const {computedState} = useState(state)
+            return{ state, computedState }
+        }
+    })
+    // render函数有变化
+    app.component('comp',{
+        template:"<div>1234</div>"
+    })
+    app.mount("#app")
+</script>

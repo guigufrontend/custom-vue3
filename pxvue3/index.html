@@ -1,0 +1,30 @@
+<div id="app">
+    <h3>{{title}}</h3>
+</div>
+<script src="./index.js"></script>
+<script>
+    //使用的方法都需要导入， vue2中所有vue自带方法都需要打包
+    // vue3中只打包使用到的方法
+    const {createApp, reactive} = Vue;
+    
+    const app = createApp({
+        data(){
+            return{
+                title:'hello world'
+            }
+        },
+        setup(){
+            // const state = reactive({
+            //     title:'hello world setup'
+            // })
+            // const state = {title:'hello world setup'}
+            // return state
+            const state =  reactive({
+                title:'hello world'
+            })
+            setTimeout(()=>{state.title='setTimeout'},1000)
+            return state
+        }
+    })
+    app.mount("#app")
+</script>

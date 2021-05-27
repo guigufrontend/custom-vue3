@@ -1,0 +1,18 @@
+<div id='app'>
+
+</div>
+<script src="./cusVue.js"></script>
+<script>
+    const { createApp } = Vue
+    const app = createApp({
+        data(){
+            return {title:'hello world'}
+        },
+        setup(){
+            let state = reactive({ title: "setup hello world" })
+            setTimeout(()=>{console.log('setTimeOUt'); state.title = "setTimeOUt"},2000)
+            return state
+        }
+    })
+    app.mount('#app')
+</script>
